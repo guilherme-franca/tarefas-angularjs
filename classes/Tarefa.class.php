@@ -7,13 +7,22 @@ include 'DB.class.php';
 */
 class Tarefa
 {
-	
-	function __construct(argument)
+	private $db;
+	function __construct()
 	{
-		# code...
+		$this->db = DB::conectar();
 	}
 
-	function testando() {
-		return DB::conectar();
+	/**
+	 * Lista todos os regitros
+	 * 
+	 * return @json
+	 */
+	function buscar() {
+		$query = $this->db->query('SELECT * FROM tarefas');
+		return array(
+			'dados' => $query->FetchAll(),
+			'error' => false
+		);
 	}
 }

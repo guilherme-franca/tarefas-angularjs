@@ -10,7 +10,7 @@
 
 	<script src="assets/js/angular.min.js"></script>
 </head>
-<body ng-controller="tarefas_ctrl">
+<body ng-controller="tarefas_ctrl" ng-init="pegarDados()">
 	<header class="jumbotron text-center">
 		<h3>Gerenciar Tarefas</h3>
 	</header>
@@ -27,7 +27,7 @@
 							<div class="panel-body">
 								Tarefa
 								<input type="hidden" name="id" id="id" ng-model="id">
-								<input type="text" name="tarefa" id="tarefa" ng-model="tarefa" value="" class="form-control">
+								<input type="text" name="tarefa" id="tarefa" ng-model="nome" value="" class="form-control">
 								
 								<p>&nbsp;</p>
 								Descrição
@@ -61,7 +61,12 @@
 							<span class="panel-title">Lista de Tarefas</span>
 						</div>
 						<div class="panel-body">
-							<table class="table table-striped">
+							<div class="alert alert-info" ng-if="tarefas.length <= 0">
+								<span class="glyphicon glyphicon-info-sign"></span>
+								&nbsp;
+								<strong>Nenhuma</strong> tarefa encontrada!
+							</div>
+							<table class="table table-striped" ng-if="tarefas.length > 0">
 								<thead>
 									<tr>
 										<th>ID</th>
@@ -73,17 +78,17 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="lista in tasks track by $index">
-										<td>{{ lista.id }}</td>
-										<td>{{ lista.tarefa }}</td>
-										<td>{{ lista.descricao }}</td>
-										<td>{{ lista.prioridade }}</td>
-										<td>{{ lista.concluida }}</td>
+									<tr ng-repeat="tarefa in tarefas track by $index">
+										<td>{{ tarefa.id }}</td>
+										<td>{{ tarefa.nome }}</td>
+										<td>{{ tarefa.descricao }}</td>
+										<td>{{ swithCase( tarefa.prioridade ) }}</td>
+										<td>{{ tarefa.concluida == "s" ? "Sim":"Não" }}</td>
 										<td>
-											<button ng-click="preemcherCampos( lista.id )" type="button" class="btn btn-success">
+											<button ng-click="preemcherCampos( tarefa.id )" type="button" class="btn btn-success">
 												<span class="glyphicon glyphicon-edit"></span>
 											</button>
-											<button ng-click="del( lista.id )" type="button" class="btn btn-danger">
+											<button ng-click="del( tarefa.id )" type="button" class="btn btn-danger">
 												<span class="glyphicon glyphicon-trash"></span>
 											</button>
 										</td>
