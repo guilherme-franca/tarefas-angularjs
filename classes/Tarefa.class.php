@@ -25,4 +25,21 @@ class Tarefa
 			'error' => false
 		);
 	}
+
+	function inserir( $dados ) {
+		if ( !is_array($dados) ) {
+			return array(
+				'message' => 'Variavel $dados nao é um array',
+				'error' => true
+			);
+		}
+
+		$stmt = $this->db->prepare( 'INSERT INTO tarefas(nome, descricao, prioridade, concluida) VALUES (?, ?, ?, ?)' );
+		$stmt->execute( $dados );
+		return $this->db->lastInsertId();
+	}
+
+	function atualizar( $dados ) {
+		# code...
+	}
 }

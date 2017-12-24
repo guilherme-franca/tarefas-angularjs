@@ -19,7 +19,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-4" >
-					<form name="form_tarefas" action="" class="">
+					<form name="form_tarefas" id="form_tarefas" ng-submit="salvar()">
 						<div class="panel panel-info">
 							<div class="panel-heading">
 								<span class="panel-title"> {{ titulo_painel }} </span>
@@ -49,7 +49,7 @@
 								</select>
 							</div>
 							<div class="panel-footer">
-								<button type="button" class="btn btn-success" ng-click="salvar()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+								<button type="submit" class="btn btn-success" ><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
 							</div>
 						</div><!-- /.painel -->
 					</form>

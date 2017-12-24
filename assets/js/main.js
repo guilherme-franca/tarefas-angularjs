@@ -13,7 +13,7 @@ app.controller('tarefas_ctrl', function($scope,$http) {
 	$scope.tarefas    = [];
 
 	$scope.pegarDados = function(){
-        $http.get('tarefa.php', {
+        $http.post('tarefa.php', {
             params:{
                 'opcao':'ler'
             }
@@ -43,19 +43,46 @@ app.controller('tarefas_ctrl', function($scope,$http) {
 
 	$scope.salvar = function() {
 		var index  = pegarIndexSelecionado( $scope.id );
+		console.log('FORM DATA: ', $scope.formData);
+		$http.defaults.headers.post["Content-Type"] = "application/form-data";
 		if ( index == -1 ) {
-			$scope.tarefas.push({
-				"id": $scope.tarefas.length + 1,
-				"nome": $scope.tarefa,
-				"descricao": $scope.descricao,
-				"prioridade": $scope.prioridade,
-				"concluida": $scope.concluida
+			// Iinserir dados
+			$http.post('tarefa.php', {
+	            params:{
+	                'opcao':'novo',
+					'nome': $scope.nome,
+					'descricao': $scope.descricao,
+					'prioridade': $scope.prioridade,
+					'concluida': $scope.concluida
+	            }
+	        }).then(function(response) {
+				console.log('SALVAR: ', response);
+				$scope.tarefas.push({
+					'id': response.data.id,
+					'nome': $scope.nome,
+					'descricao': $scope.descricao,
+					'prioridade': $scope.prioridade,
+					'concluida': $scope.concluida
+				});
 			});
 		} else {
-			$scope.tarefas[index].nome       = $scope.nome;
-			$scope.tarefas[index].descricao  = $scope.descricao;
-			$scope.tarefas[index].prioridade = $scope.prioridade;
-			$scope.tarefas[index].concluida  = $scope.concluida;
+			// Atualiza os dados 
+			$http.post('tarefa.php', {
+	            params:{
+	                'opcao':'editar',
+					'id': index,
+					'nome': $scope.nome,
+					'descricao': $scope.descricao,
+					'prioridade': $scope.prioridade,
+					'concluida': $scope.concluida
+	            }
+	        }).then(function(response) {
+				console.log('EDITAR: ', response);
+				$scope.tarefas[index].nome       = $scope.nome;
+				$scope.tarefas[index].descricao  = $scope.descricao;
+				$scope.tarefas[index].prioridade = $scope.prioridade;
+				$scope.tarefas[index].concluida  = $scope.concluida;
+			});
 		}
 
 		// Limpa o formulário
@@ -94,6 +121,7 @@ app.controller('tarefas_ctrl', function($scope,$http) {
 		}
 	}
 
+	// Pega uma posição no JSON
 	function pegarIndexSelecionado(id) {
 		for (var i=0; i<$scope.tarefas.length; i++)
 			if ($scope.tarefas[i].id == id)
