@@ -8,6 +8,7 @@ include 'DB.class.php';
 class Tarefa
 {
 	private $db;
+	
 	function __construct()
 	{
 		$this->db = DB::conectar();
@@ -16,7 +17,7 @@ class Tarefa
 	/**
 	 * Lista todos os regitros
 	 * 
-	 * return @json
+	 * return @array object
 	 */
 	function buscar() {
 		$query = $this->db->query('SELECT * FROM tarefas');
@@ -26,6 +27,11 @@ class Tarefa
 		);
 	}
 
+	/**
+	 * Inseri um novo registro
+	 * 
+	 * return @int
+	 */
 	function inserir( $dados ) {
 		if ( !is_array($dados) ) {
 			return array(
@@ -39,7 +45,21 @@ class Tarefa
 		return $this->db->lastInsertId();
 	}
 
+	/**
+	 * Atualiza um registro
+	 * 
+	 * return @int
+	 */
 	function atualizar( $dados ) {
-		# code...
+		if ( !is_array($dados) ) {
+			return array(
+				'message' => 'Variavel $dados nao é um array',
+				'error' => true
+			);
+		}
+
+		$stmt = $this->db->prepare( 'UPDATE tarefas SET nome = ?, descricao = ?, prioridade = ?, concluida = ?  WHERE id = ?' );
+		$stmt->execute( $dados );
+		return $stmt->rowCount();	
 	}
 }

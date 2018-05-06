@@ -43,12 +43,11 @@ app.controller('tarefas_ctrl', function($scope,$http) {
 
 	$scope.salvar = function() {
 		var index  = pegarIndexSelecionado( $scope.id );
-		console.log('FORM DATA: ', $scope.formData);
 		$http.defaults.headers.post["Content-Type"] = "application/form-data";
 		if ( index == -1 ) {
 			// Iinserir dados
 			$http.post('tarefa.php', {
-	            params:{
+	            params: {
 	                'opcao':'novo',
 					'nome': $scope.nome,
 					'descricao': $scope.descricao,
@@ -68,9 +67,9 @@ app.controller('tarefas_ctrl', function($scope,$http) {
 		} else {
 			// Atualiza os dados 
 			$http.post('tarefa.php', {
-	            params:{
+	            params: {
 	                'opcao':'editar',
-					'id': index,
+					'id': $scope.id,
 					'nome': $scope.nome,
 					'descricao': $scope.descricao,
 					'prioridade': $scope.prioridade,

@@ -38,6 +38,32 @@ switch ( $opcao ) {
 			));
 		}
 		break;
+
+	case 'editar':
+		$dados1 = array(
+			$dados['params']['nome'],
+			$dados['params']['descricao'],
+			$dados['params']['prioridade'],
+			$dados['params']['concluida'],
+			$dados['params']['id']
+		);
+
+		$linhas_afetados = $t->atualizar( $dados1 );
+
+		if ( $linhas_afetados > 0 ) {
+			echo json_encode(array(
+				'linhas' => $linhas_afetados,
+				'message' => 'Atualizado com sucesso!',
+				'error' => false
+			));
+		} else {
+			echo json_encode(array(
+				'id' => 0,
+				'message' => 'Erro ao atualizar a tarefa!',
+				'error' => true
+			));
+		}
+		break;
 	
 	default:
 		echo "Ação inválida";
