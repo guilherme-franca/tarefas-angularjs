@@ -8,6 +8,7 @@ Utiliza o MYSQL como banco de dados e o PDO para realizar a conexão com o banco
 Nome do banco: db_tarefa
 Possui apenas uma tabela chamada de tarefas
 Estrutura da tabela:
+```
 	CREATE TABLE `tarefas` (
 	  `id` int(11) NOT NULL,
 	  `nome` varchar(180) NOT NULL,
@@ -15,4 +16,4 @@ Estrutura da tabela:
 	  `prioridade` char(1) NOT NULL,
 	  `concluida` char(1) NOT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+```
