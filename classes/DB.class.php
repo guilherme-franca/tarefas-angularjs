@@ -2,17 +2,27 @@
 
 /**
 * Conectar com o banco de dados
+* Connection with the database
 */
 class DB
 {
-	private static $host = 'localhost';
-	private static $nome_banco = 'db_tarefa';
-	private static $usuario = 'tarefas';
-	private static $senha = '123456';
+	private static $host   = 'localhost';
+	private static $nameDB = 'manager_tasks';
+	private static $user   = 'tarefas';
+	private static $pass   = '123456';
 
-	function __construct() {}
+	/**
+	 * Construct
+	 */
+	public function __construct() {}
 
-	public static function conectar() {
+	/**
+	 * Connect of database
+	 * 
+	 * return \PDO $pdo
+	 */
+	public static function connect()
+	{
 		$pdo = "";
 		try {
 			$opt = array(
@@ -20,8 +30,8 @@ class DB
 	            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
 	            PDO::ATTR_EMULATE_PREPARES => FALSE,
 	        );
-	        $dsn = 'mysql:host=' . self::$host . ';dbname=' . self::$nome_banco;
-	        $pdo = new PDO($dsn, self::$usuario, self::$senha, $opt);
+	        $dsn = 'mysql:host=' . self::$host . ';dbname=' . self::$nameDB;
+	        $pdo = new PDO($dsn, self::$user, self::$pass, $opt);
 		} catch (PDOException $e) {
 			echo json_encode(array(
 				'message' => $e->getMassege(),
