@@ -17,8 +17,8 @@ app.controller('TasksController', function($scope,$http) {
 	                'option':'read'
 	            }
 	        })
-	        .then( function( response ){
-	        	console.log('RESPONSE: ', response);
+	        .then( function( response ) {
+	        	console.log('kk', response);
 	            $scope.tasks = response.data;
 	        });
     };
@@ -60,8 +60,18 @@ app.controller('TasksController', function($scope,$http) {
 		//Ask if want delete the record
 		let result = confirm('Tem certeza que deseja excluir?');
 		if (result == true) {
-			let index = getIndexSelected(id);
-			$scope.tasks.splice(index, 1);
+			$http
+				.post('task.php', {
+		            params: {
+		                'option':'delete',
+						'id': id
+		            }
+		        })
+		        .then(function(response) {
+					let index = getIndexSelected(id);
+					$scope.tasks.splice(index, 1);
+					alert(response.data.message);
+				});
 		}
 	}
 
@@ -101,7 +111,7 @@ app.controller('TasksController', function($scope,$http) {
 	            }
 	        })
 	        .then(function(response) {
-				console.log('SAVE: ', response);
+				alert(response.data.message);
 				// Update index
 				index = response.data.id;
 				$scope.tasks.push({
@@ -129,6 +139,7 @@ app.controller('TasksController', function($scope,$http) {
 	            }
 	        })
 	        .then(function(response) {
+	        	alert(response.data.message + ' Linhas afetadas: ' + response.data.lines);
 				$scope.tasks[index].name = $scope.name;
 				$scope.tasks[index].description = $scope.description;
 				$scope.tasks[index].priority = parseInt( $scope.priority );

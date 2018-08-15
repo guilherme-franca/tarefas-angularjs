@@ -3,8 +3,7 @@
 include 'DB.class.php';
 
 /**
-* Operações de criar, ler, atualizar e deletar
-* Manager tasks into of the aplication
+* Operation basics for the tasks into of the aplication | CRUD
 * 
 * @public
 */
@@ -24,23 +23,17 @@ class Task
 	}
 
 	/**
-	 * Lista todos os regitros
 	 * List all the records
 	 * 
 	 * return array
 	 */
-	public function find()
+	public function all()
 	{
 		$query = $this->db->query('SELECT * FROM tasks ORDER BY priority DESC');
 		return $query->FetchAll();
-		/*return array(
-			'data' => $query->FetchAll(),
-			'error' => false
-		);*/
 	}
 
 	/**
-	 * Inserir um novo registro
 	 * Insert a new record
 	 * 
 	 * return integer
@@ -60,10 +53,9 @@ class Task
 	}
 
 	/**
-	 * Atualiza um registro
 	 * Update a record
 	 * 
-	 * return @int
+	 * return integer
 	 */
 	public function update( $data )
 	{
@@ -80,10 +72,13 @@ class Task
 	}
 
 	/**
-	 * Delete the record
+	 * Delete a record
 	 */
 	public function delete( $id )
 	{
-		//
+		$stmt = $this->db->prepare( 'DELETE FROM tasks  WHERE id = :id' );
+		$stmt->bindValue(':id', $id);
+		$stmt->execute();
+		return $stmt->rowCount();
 	}
 }

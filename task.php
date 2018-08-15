@@ -12,7 +12,7 @@ $option = ( !isset ($data['params']['option']) ) ? 'invalid' : $data['params']['
 
 switch ( $option ) {
 	case 'read':
-		echo json_encode( $task->find() );
+		echo json_encode( $task->all() );
 		break;
 	case 'create':
 		$data = array(
@@ -52,13 +52,13 @@ switch ( $option ) {
 
 		if ( $linhas_afetados > 0 ) {
 			echo json_encode(array(
-				'linhas' => $linhas_afetados,
+				'lines' => $linhas_afetados, // Total of lines affected
 				'message' => 'Atualizado com sucesso!',
 				'error' => false
 			));
 		} else {
 			echo json_encode(array(
-				'id' => 0,
+				'lines' => 0,
 				'message' => 'Erro ao atualizar a tarefa!',
 				'error' => true
 			));
@@ -66,6 +66,18 @@ switch ( $option ) {
 		break;
 
 	case 'delete':
+		$id = is_integer( $data['params']['id'] ) ? $data['params']['id'] : 0;
+		if( ( $id > 0 ) && ( $task->delete($id) > 0 ) ) {
+			echo json_encode( array(
+				'message' => 'Deletado com sucesso!',
+				'error' => false
+			));
+		} else {
+			echo json_encode( array(
+				'message' => 'Erro ao deletar!',
+				'error' => true
+			));
+		}
 		break;
 	
 	default:

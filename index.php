@@ -11,7 +11,7 @@
 	<script src="assets/js/angular.min.js"></script>
 </head>
 <body ng-controller="TasksController" ng-init="init()">
-	<header class="jumbotron text-center">
+	<header class="header text-center">
 		<h3>Gerenciar Tarefas</h3>
 	</header>
 	<main>
